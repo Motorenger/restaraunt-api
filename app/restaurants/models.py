@@ -15,7 +15,7 @@ class VoteMenus(models.Model):
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
-    daily_menu = models.ImageField(null=True, blank=True)
+    current_menu = models.ImageField(null=True, blank=True)
 
     def __str__(self):
         return self.name

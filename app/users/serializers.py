@@ -3,11 +3,10 @@ from rest_framework import serializers
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    # password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'password']
+        fields = ['email', 'password', 'restaurant']
         extra_kwargs = {
             'password' : {'write_only': True}
         }
@@ -15,15 +14,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def save(self):
 
         password = self.validated_data['password']
-        # password2 = self.validated_data['password2']
-
-        # if password != password2:
-        #     raise serializers.ValidationError({'error': 'P1 and P2 should be same!'})
 
         if CustomUser.objects.filter(email=self.validated_data['email']).exists():
             raise serializers.ValidationError({'error': 'Email already exists!'})
 
-        account = CustomUser(email=self.validated_data['email'])
+        account = CustomUser(email=self.validated_data['email'], 
+                            name=self.validated_data['email'].split('@')[0], 
+                            restaurant=self.validated_data['restaurant']
+                            )
         account.set_password(password)
         account.save()
 

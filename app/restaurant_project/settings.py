@@ -123,8 +123,10 @@ MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / 'static/images'
 
 REST_FRAMEWORK = {
-    
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
 }
