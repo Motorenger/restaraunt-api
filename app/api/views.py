@@ -1,21 +1,27 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from restaurants.models import Restaurant
+from restaurants.models import Restaurant, VoteMenus
 
-
-@api_view()
-def hello_world(request):
-    return Response({"message": "Hello, world!"})
 
 @api_view(['POST'])
-def uploadImage(request):
+def create_rest(request):
     data = request.data
 
-    obj_id = data['obj_id']
-    obj= Restaurant.objects.get(id=obj_id)
-    print(request.FILES.get('image'))
-    obj.daily_menu = request.FILES.get('image')
-    obj.save()
+    restaurant = Restaurant.objects.create(name=data['name'])
 
+    return Response('Restaurant Created Successfully')
+
+
+
+@api_view(['POST'])
+def upload_votemenu(request):
+    data = request.data
+
+    rest_id = data['rest_id']
+    restaurant = Restaurant.objects.get(id=rest_id)
+
+    vote_menu = VoteMenus.objects.create(restaurant=restaurant, menu=data["vote_menu"])
+
+    vote_menu.save()
     return Response('Image was uploaded')
