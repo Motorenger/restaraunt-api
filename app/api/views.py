@@ -1,4 +1,3 @@
-from ipaddress import v6_int_to_packed
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,7 +10,7 @@ from restaurants.serializers import RestMenuSerializer, VoteMenuSerializer
 def create_restaurant(request):
     data = request.data
 
-    restaurant = Restaurant.objects.create(name=data['name'])
+    Restaurant.objects.create(name=data['name'])
 
     return Response('Restaurant Created Successfully')
 
@@ -19,6 +18,7 @@ def create_restaurant(request):
 
 @api_view(['POST'])
 def upload_votemenu(request):
+
     data = request.data
 
     rest_id = data['rest_id']
@@ -60,7 +60,10 @@ class VoteMenusView(APIView):
         restaurant = self.get_restaurant(request.user.restaurant.id)
         vote_menus = VoteMenus.objects.filter(restaurant=restaurant)
         print(restaurant)
-        serializer = VoteMenuSerializer(vote_menus, context={'request': request}, many=True)
+        serializer = VoteMenuSerializer(vote_menus,
+                                        context={'request': request},
+                                        many=True
+                                        )
 
         return Response(serializer.data)
 
@@ -68,8 +71,8 @@ class VoteMenusView(APIView):
 @api_view(["PUT"])
 def vote_for_menu(request):
     menu_id = request.data["menu_id"]
-    menu_obj  = VoteMenus.objects.get(id=menu_id)
-    menu_obj.votes+=1
+    menu_obj = VoteMenus.objects.get(id=menu_id)
+    menu_obj.votes += 1
     menu_obj.save()
     serialzer = VoteMenuSerializer(menu_obj, context={'request': request})
 
@@ -83,7 +86,6 @@ def vote_results(request):
         restaurant = Restaurant.objects.get(pk=restaurant.id)
     except Restaurant.DoesNotExist:
         raise Http404
-    
     vote_menus = VoteMenus.objects.filter(restaurant=restaurant)
 
     winner = vote_menus[0]
@@ -92,7 +94,6 @@ def vote_results(request):
             winner = menu
         else:
             menu.delete()
-    
     serialzer = VoteMenuSerializer(winner, context={'request': request})
     restaurant.daily_menu = winner.menu
     restaurant.save()

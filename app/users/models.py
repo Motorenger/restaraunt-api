@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
 from .managers import CustomUserManager
-from restaurants.models import Restaurant 
+from restaurants.models import Restaurant
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
 
@@ -14,17 +14,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_login = models.DateTimeField(null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
 
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True, blank=True, related_name='employees', )
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE,
+                                   null=True, blank=True,
+                                   related_name='employees', )
 
-
-
-    # The name of the field that will serve as unique identifier
     USERNAME_FIELD = 'email'
-    #  The name of the field that will be returned when get_email_field_name() is called on a User instance.
+
     EMAIL_FIELD = 'email'
 
     objects = CustomUserManager()
 
     def __str__(self):
         return str(self.name)
-

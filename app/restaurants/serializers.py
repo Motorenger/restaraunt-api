@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import Restaurant, VoteMenus
 
+
 class RestMenuSerializer(serializers.ModelSerializer):
 
     class Meta:

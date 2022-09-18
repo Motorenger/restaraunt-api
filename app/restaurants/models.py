@@ -8,10 +8,10 @@ class VoteMenus(models.Model):
 
     class Meta:
         verbose_name = "Vote Menu"
-        verbose_name_plural = 'Menus for vote'  
-    
+        verbose_name_plural = 'Menus for vote' 
     def __str__(self):
         return f"Menu_{self.restaurant.name}"
+
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
@@ -19,7 +19,3 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
-
-
-
-  

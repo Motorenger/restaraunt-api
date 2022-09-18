@@ -5,7 +5,8 @@ from django.utils import timezone
 
 class CustomUserManager(BaseUserManager):
 
-    def _create_user(self, email, password, is_staff, is_superuser, restaurant, **extra_fields):
+    def _create_user(self, email, password, is_staff,
+                     is_superuser, restaurant, **extra_fields):
         if not email:
             raise ValueError('Users must have an email address')
         now = timezone.now()
@@ -26,7 +27,8 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password, restaurant, **extra_fields):
-        return self._create_user(email, password, False, False, restaurant=None, **extra_fields)
+        return self._create_user(email, password, False, False,
+                                 restaurant=None, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
         user = self._create_user(email, password, True, True, **extra_fields)

@@ -10,15 +10,11 @@ from .serializers import RegistrationSerializer
 def registration_jwt(request):
 
     if request.method == 'POST':
-        serializer = RegistrationSerializer(data=request.data)
-        
+        serializer = RegistrationSerializer(data=request.data)  
         data = {}
-        
         if serializer.is_valid():
             account = serializer.save()
-            
             data['response'] = "Registration Successful!"
-            # data['username'] = account.username
             data['email'] = account.email
 
             refresh = RefreshToken.for_user(account)
@@ -26,8 +22,6 @@ def registration_jwt(request):
                                 'refresh': str(refresh),
                                 'access': str(refresh.access_token),
                             }
-       
         else:
             data = serializer.errors
-        
         return Response(data, status=status.HTTP_201_CREATED)
