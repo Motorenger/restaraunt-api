@@ -42,7 +42,7 @@ class CurrentMenuView(APIView):
 
     def get(self, request):
         restaurant = self.get_restaurant(request.user.restaurant.id)
-        print(restaurant)
+        print(request.version)
         serializer = RestMenuSerializer(restaurant, context={'request': request})
 
         return Response(serializer.data)
