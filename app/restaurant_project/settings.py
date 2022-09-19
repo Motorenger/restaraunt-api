@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "restaurant_project.settings")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -124,3 +125,6 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS':
     'rest_framework.versioning.AcceptHeaderVersioning'
 }
+
+import django
+django.setup()

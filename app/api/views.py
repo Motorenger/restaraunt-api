@@ -1,18 +1,23 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework import status
+
 from django.http import Http404
 
 from restaurants.models import VoteMenus, Restaurant
 from restaurants.serializers import RestMenuSerializer, VoteMenuSerializer
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def create_restaurant(request):
     data = request.data
 
     Restaurant.objects.create(name=data['name'])
 
-    return Response('Restaurant Created Successfully')
+    return Response('Restaurant Created Successfully', status=status.HTTP_201_CREATED)
 
 
 

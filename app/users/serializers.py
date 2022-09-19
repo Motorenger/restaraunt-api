@@ -19,7 +19,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
                                      validated_data['email']).exists():
             raise serializers.ValidationError(
                                         {'error': 'Email already exists!'})
-
+        
         account = CustomUser(email=self.validated_data['email'],
                              name=self.validated_data['email'].split('@')[0],
                              restaurant=self.validated_data['restaurant'])
